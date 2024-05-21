@@ -24,14 +24,14 @@ blue_line_y = 268
 offset = 6
 
 # Create a folder to save frames and violated images
-if not os.path.exists('detected_frames2'):
-    os.makedirs('detected_frames2')
+if not os.path.exists('Detected_Frames'):
+    os.makedirs('Detected_Frames')
 
-if not os.path.exists('violate'):
-    os.makedirs('violate')
+if not os.path.exists('Violations'):
+    os.makedirs('Violations')
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('Save.avi', fourcc, 20.0, (1020, 500))
+out = cv2.VideoWriter('Output Video.avi', fourcc, 20.0, (1020, 500))
 
 while True:
     ret, frame = cap.read()
@@ -82,7 +82,7 @@ while True:
                     cv2.putText(frame, str(int(a_speed_kh)) + ' km/h', (x4, y4), cv2.FONT_HERSHEY_DUPLEX, 0.8, (0, 255, 255), 2)
                     if a_speed_kh > 4:  # Speed limit check
                         crop_img = frame[y3:y4, x3:x4]
-                        cv2.imwrite(f'violate/vehicle_{id}.jpg', crop_img)
+                        cv2.imwrite(f'Violations/vehicle_{id}.jpg', crop_img)
 
         # GOING UP     
         if blue_line_y < (cy + offset) and blue_line_y > (cy - offset):
@@ -102,7 +102,7 @@ while True:
                     cv2.putText(frame, str(int(a_speed_kh1)) + ' km/h', (x4, y4), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
                     if a_speed_kh1 > 4:  # Speed limit check
                         crop_img = frame[y3:y4, x3:x4]
-                        cv2.imwrite(f'violate/vehicle_{id}.jpg', crop_img)
+                        cv2.imwrite(f'Violations/vehicle_{id}.jpg', crop_img)
 
     text_color = (0, 0, 0)  # Black color for text
     yellow_color = (0, 255, 255)  # Yellow color for background
@@ -118,7 +118,7 @@ while True:
     cv2.putText(frame, 'Up Lane: ' + str(len(counter_up)), (520, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, text_color, 1, cv2.LINE_AA)
 
     # Save frame
-    frame_filename = f'detected_frames2/frame_{count}.jpg'
+    frame_filename = f'Detected_Frames/frame_{count}.jpg'
     cv2.imwrite(frame_filename, frame)
 
     out.write(frame)
